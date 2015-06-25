@@ -113,10 +113,10 @@ namespace DropPointImportFromGLS
 
 
         static  Dictionary<string, AddressHolder> LoadDropPoints(int Carrier, string Country)
-        {
+        {  int countErrors=0;
             XmlNode errorNode = null;
 
-
+            Logger.Debug(String.Format("Start to loop the zip codes from {0}", Country)); 
             Dictionary<string, AddressHolder> dirAddresses = new Dictionary<string, AddressHolder>();
             DropPointService Importer = new DropPointService();
             foreach (String zip in Importer.GetDistinctZipFromCountry(Country, 15))
@@ -124,7 +124,7 @@ namespace DropPointImportFromGLS
                 try
                 {
                    XmlNode xDoc = MakeRequest(CreateRequest(zip));
-                    Logger.Debug("Document loaded");
+                    
                     if (xDoc != null)
                     {
                         Console.Write("run " + zip);
@@ -166,11 +166,15 @@ namespace DropPointImportFromGLS
                         xml = errorNode.OuterXml;
                     String error = string.Format("Import of drop points from carrierId = {0} and Country = {1} go following error: {2}  xml: {3}", Carrier, Country, ex.Message, xml);
                     Logger.Error(error);
+                    countErrors++;
 
 
                 }
 
+               
+
             }
+            Logger.Debug(String.Format("Number of DropPoint: {0} in Country: {1} and Errors :{2}", dirAddresses.Count, Country, countErrors));
             return dirAddresses;
 
 
