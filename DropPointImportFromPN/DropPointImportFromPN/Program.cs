@@ -192,6 +192,10 @@ namespace DropPointImportFromPN
             {
               ziplist.Add(zipNode.InnerText);
             }
+            if (!ziplist.Contains(address.Zip))
+            {
+                ziplist.Add(address.Zip);
+            }
             address.ZipCode = ziplist;
                 
 
