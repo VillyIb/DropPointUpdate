@@ -75,7 +75,7 @@ namespace DropPointImportFromPN
                 Importer.Carrier=Carrier;
 
                 int no_records = Importer.CountExistingDropPoints(Country, Carrier);
-                string urlParameters = string.Format("?consumerId={0}&countryCode={1}", ConfigurationGeneral .PN_consumerId, Country);
+                string urlParameters = string.Format("?apikey={0}&countryCode={1}", ConfigurationGeneral.PN_consumerId, Country);
 
                 Logger.Debug(String.Format("Load document {0}",CreateRequest(urlParameters)));
                 XmlDocument xDoc = MakeRequest(CreateRequest(urlParameters));
